@@ -14,4 +14,19 @@ router.get('/users', (req, res) => {
     });
 });
 
+router.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+  db.getById(id)
+    .then(users => {
+      if(users){
+        res.json(users);
+      } else {
+        res.status(404).json({message: 'User with specified ID not found!'});
+      }
+    })
+    .catch(err => {
+      res.status(500).json({errorMessage: 'User data could not be retrieved!'})
+    });
+});
+
 module.exports = router;
